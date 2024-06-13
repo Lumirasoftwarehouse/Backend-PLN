@@ -69,15 +69,10 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    // Mendefinisikan relasi many to many antara User dan Komisariat
-    public function komisariats()
+    // Mendefinisikan relasi many to many
+    public function projects()
     {
-        return $this->belongsToMany(Komisariat::class, 'komisariat_users', 'user_id', 'komisariat_id');
-    }
-
-    public function chats(): HasMany
-    {
-        return $this->hasMany(Chat::class, 'created_by');
+        return $this->belongsToMany(Project::class, 'user_projects', 'userId', 'projectId');
     }
 
     public function routeNotificationForOneSignal(): array

@@ -9,7 +9,7 @@ class ProjectController extends Controller
 {
     public function listAllProject()
     {
-        $dataProject = Project::get();
+        $dataProject = Project::with('users')->get();
 
         return response()->json(['message' => 'success', 'data' => $dataProject]);
     }
