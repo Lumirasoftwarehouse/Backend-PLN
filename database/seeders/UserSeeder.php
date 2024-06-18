@@ -17,33 +17,30 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // pengurus
         User::create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('12345'),
-            'level' => '0',
-            'noHP' => '0812345'
+            'level' => '1',
+            'position' => 'test'
         ]);
         User::create([
             'name' => 'user',
             'email' => 'user@gmail.com',
             'password' => Hash::make('12345'),
             'level' => '0',
-            'noHP' => '0812345'
+            'position' => 'test'
         ]);
 
         Project::create([
             'client' => 'satu',
             'project' => 'satu',
-            'schedule' => 'satu',
             'dueDate' => '2024/05/01',
             'status' => '1'
         ]);
         Project::create([
             'client' => 'dua',
             'project' => 'dua',
-            'schedule' => 'dua',
             'dueDate' => '2024/06/01',
         ]);
 

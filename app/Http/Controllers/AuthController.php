@@ -21,9 +21,9 @@ class AuthController extends Controller
     {
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
+            'position' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'noHP' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -32,13 +32,13 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => request('name'),
+            'position' => request('position'),
             'email' => request('email'),
             'password' => bcrypt(request('password')),
-            'noHP' => request('noHP'),
         ]);
 
         if ($user) {
-            return response()->json(['message' => 'Registration successful']);
+            return response()->json(['message' => 'Registration successful'], 201);
         } else {
             return response()->json(['message' => 'Registration failed'], 500);
         }
@@ -155,8 +155,8 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'position' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
-            'noHP' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -165,8 +165,7 @@ class AuthController extends Controller
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->noHP = $request->input('noHP');
-
+        $user->position = $request->input('position');
         $user->save();
 
         return response()->json([

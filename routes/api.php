@@ -48,3 +48,16 @@ Route::group([
     // });
 });
 
+Route::group([
+    'prefix' => 'phase'
+], function () {
+    // Route::group([
+        //     'middleware' => 'auth:api'
+        // ], function () {
+        Route::post('create-phase', [ProjectController::class, 'createPhase']);
+        Route::get('phase-project/{id}', [ProjectController::class, 'phaseByProject']);
+        Route::post('update-phase/{id}', [ProjectController::class, 'updatePhase']);
+        Route::delete('delete-phase/{id}', [ProjectController::class, 'deletePhase']);
+    // });
+});
+
