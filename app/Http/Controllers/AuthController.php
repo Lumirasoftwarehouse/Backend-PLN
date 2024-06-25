@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use DateTimeZone;
 use DateTime;
@@ -141,38 +143,57 @@ class AuthController extends Controller
             ], 401);
         }
     }
+    
 
-    public function update(Request $request, $id)
-    {
-        $user = User::find($id);
+public function update(Request $request, $id)
+{
+    $user = User::find($id);
 
-        if (!$user) {
-            return response()->json([
-                'message' => 'User not found',
-                'data' => null
-            ], 404);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'position' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 400);
-        }
-
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->position = $request->input('position');
-        $user->save();
-
+    if (!$user) {
         return response()->json([
-            'message' => 'success',
-            'data' => $user
-        ], 200);
+            'message' => 'User not found',
+            'data' => null
+        ], 404);
     }
+
+    $validator = Validator::make($request->all(), [
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'name' => 'required|string|max:255',
+        'position' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $id,
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->messages()], 400);
+    }
+
+    // Handle the image upload
+    if ($request->hasFile('image')) {
+        // Check if user already has an image
+        if ($user->image) {
+            // Delete the old image from storage
+            Storage::delete('public/profiles/' . $user->image);
+        }
+
+        // Store the new image
+        $image = $request->file('image');
+        $imagePath = $image->store('public/profiles');
+        $imageName = basename($imagePath);
+        $user->image = $imageName;
+    }
+
+    $user->name = $request->input('name');
+    $user->email = $request->input('email');
+    $user->position = $request->input('position');
+    $user->save();
+
+    return response()->json([
+        'message' => 'success',
+        'data' => $user
+    ], 200);
+}
+
+    
 
     public function delete($id)
     {
