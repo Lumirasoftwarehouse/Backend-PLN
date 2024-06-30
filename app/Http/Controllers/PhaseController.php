@@ -25,6 +25,12 @@ class PhaseController extends Controller
         return response()->json(['message' => 'success'],200);
     }
 
+    public function phaseById($id)
+    {
+        $dataPhaseById = Phase::find($id);
+
+        return response()->json(['message' => 'success', 'data' => $dataPhaseById], 200);
+    }
     public function phaseByProject($id)
     {
         $dataPhaseByProject = Phase::where('id_project', $id)->get();
@@ -38,6 +44,10 @@ class PhaseController extends Controller
             'phase' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'repeat' => 'required',
+            'notes' => 'required',
             'id_project' => 'required'
         ]);
 

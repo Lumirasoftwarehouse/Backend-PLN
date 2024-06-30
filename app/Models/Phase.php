@@ -9,5 +9,14 @@ class Phase extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["phase", "start_date", "end_date", "id_project"];
+    protected $fillable = [
+        "phase", 
+        "start_date", 
+        "end_date", 
+        "start_time",
+        "end_time",
+        "repeat",
+        "notes",
+        "id_project"
+    ];
 }

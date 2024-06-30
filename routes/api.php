@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\PhaseController;
 
 Route::group([
     'prefix' => 'auth'
@@ -54,10 +55,11 @@ Route::group([
     // Route::group([
         //     'middleware' => 'auth:api'
         // ], function () {
-        Route::post('create-phase', [ProjectController::class, 'createPhase']);
-        Route::get('phase-project/{id}', [ProjectController::class, 'phaseByProject']);
-        Route::post('update-phase/{id}', [ProjectController::class, 'updatePhase']);
-        Route::delete('delete-phase/{id}', [ProjectController::class, 'deletePhase']);
+        Route::post('create-phase', [PhaseController::class, 'createPhase']);
+        Route::get('phase-detail/{id}', [PhaseController::class, 'phaseById']);
+        Route::get('phase-project/{id}', [PhaseController::class, 'phaseByProject']);
+        Route::post('update-phase/{id}', [PhaseController::class, 'updatePhase']);
+        Route::delete('delete-phase/{id}', [PhaseController::class, 'deletePhase']);
     // });
 });
 
