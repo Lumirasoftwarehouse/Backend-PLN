@@ -22,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('level', [
-                '0', // mahasiswa
-                '1', // mentor
+                '0', // user
+                '1', // pic
                 '2' // admin
                 ])->default('0');
             $table->enum('status', [
