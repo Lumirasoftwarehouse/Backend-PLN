@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PhaseController;
+use App\Http\Controllers\DivisiController;
+use App\Http\Controllers\LaporanPhaseController;
 
 Route::group([
     'prefix' => 'auth'
@@ -22,6 +24,8 @@ Route::group([
         Route::post('update/{id}', [AuthController::class, 'update']);
         Route::delete('delete/{id}', [AuthController::class, 'delete']);
         Route::get('list-pengguna', [AuthController::class, 'listPengguna']);
+        Route::get('list-manager', [AuthController::class, 'listManager']);
+        Route::get('list-aktivitas', [AuthController::class, 'listAktivitas']);
         
         
         Route::group([
@@ -34,6 +38,21 @@ Route::group([
 });
 
 Route::group([
+    'prefix' => 'divisi'
+], function () {
+    // Route::group([
+        //     'middleware' => 'auth:api'
+        // ], function () {
+        Route::get('list', [DivisiController::class, 'listDivisi']);
+        Route::get('users', [DivisiController::class, 'listUserDivisi']);
+        Route::post('create', [DivisiController::class, 'createDivisi']);
+        Route::post('update/{id}', [DivisiController::class, 'updateDivisi']);
+        Route::delete('delete/{id}', [DivisiController::class, 'deleteDivisi']);
+            
+    // });
+});
+
+Route::group([
     'prefix' => 'project'
 ], function () {
     // Route::group([
@@ -43,7 +62,7 @@ Route::group([
         Route::get('detail-project/{id}', [ProjectController::class, 'detailProject']);
         Route::post('create-project', [ProjectController::class, 'createProject']);
         Route::post('update-project/{id}', [ProjectController::class, 'updateProject']);
-        Route::post('action-project/{id}', [ProjectController::class, 'actionProject']);
+        Route::post('action-project', [ProjectController::class, 'actionProject']);
         Route::delete('delete-project/{id}', [ProjectController::class, 'deleteProject']);
             
     // });
@@ -63,3 +82,18 @@ Route::group([
     // });
 });
 
+Route::group([
+    'prefix' => 'laporan-phase'
+], function () {
+    // Route::group([
+        //     'middleware' => 'auth:api'
+        // ], function () {
+        Route::get('list', [LaporanPhaseController::class, 'listLaporanByPhase']);
+        Route::get('project/{id}', [LaporanPhaseController::class, 'listLaporanByIdProject']);
+        Route::post('create', [LaporanPhaseController::class, 'addLaporan']);
+        Route::post('update', [LaporanPhaseController::class, 'updateLaporan']);
+        Route::delete('delete/{id}', [LaporanPhaseController::class, 'deleteLaporan']);
+        // });
+    });
+    
+    Route::get('/project/{projectId}/user/{userId}/phase-details', [ProjectController::class, 'detailPhaseProjectByUserId']);

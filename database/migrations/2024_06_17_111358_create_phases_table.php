@@ -22,7 +22,7 @@ class CreatePhasesTable extends Migration
             $table->string('end_time')->nullable();
             $table->string('repeat')->nullable();
             $table->text('notes')->nullable();
-            $table->foreignId('id_user')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            // $table->foreignId('id_user')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('id_project')->constrained('projects')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

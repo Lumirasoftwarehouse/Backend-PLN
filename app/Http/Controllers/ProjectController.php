@@ -9,6 +9,7 @@ use App\Models\Deliverable;
 use App\Models\UserProject;
 use DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
 
 class ProjectController extends Controller
 {
@@ -40,6 +41,39 @@ class ProjectController extends Controller
 
         return response()->json(['message' => 'success', 'data' => $data]);   
     }
+
+public function detailPhaseProjectByUserId($projectId, $userId)
+{
+    $phases = Phase::where('id_project', $projectId)->get();
+    $result = [];
+
+    foreach ($phases as $phase) {
+        $start = Carbon::parse($phase->start_date);
+        $end = Carbon::parse($phase->end_date);
+        $dates = [];
+
+        for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+            $laporanExists = \App\Models\LaporanPhase::where('id_phase', $phase->id)
+                ->where('id_user', $userId)
+                ->whereDate('tanggal', $date->toDateString())
+                ->exists();
+
+            $dates[] = [
+                'tanggal' => $date->toDateString(),
+                'status' => $laporanExists ? 1 : 0
+            ];
+        }
+
+        $result[] = [
+            'phase_id' => $phase->id,
+            'phase_name' => $phase->phase,
+            'tanggal_status' => $dates
+        ];
+    }
+
+    return response()->json(['message' => 'success', 'data' => $result]);
+}
+
 
     public function createProject(Request $request)
     {
@@ -128,15 +162,13 @@ class ProjectController extends Controller
 
     public function actionProject(Request $request)
     {
-        $dataValidate = $request->validate([
-            'client' => 'required', 
-            'project' => 'required', 
+        $dataValidate = $request->validate([ 
             'status' => 'required', 
-            'schedule' => 'required'
+            'id' => 'required'
         ]);
 
-        $dataProject = Project::find($id);
-        $dataProject->status = '1';
+        $dataProject = Project::find($dataValidate['id']);
+        $dataProject->status = $dataValidate['status'];
         $dataProject->save();
 
         return response()->json(['message' => 'success'], 200);

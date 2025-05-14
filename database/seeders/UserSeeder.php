@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Divisi;
+use App\Models\UserDivisi;
 use App\Models\Project;
 use App\Models\UserProject;
 use App\Models\Phase;
@@ -19,30 +21,41 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        // user
         User::create([
             'image' => 'aepOP1ZSPwIUoPII47AZlt7bTOXQ8HCmBe6eyUtw.png',
-            'name' => 'user',
-            'email' => 'user@gmail.com',
+            'name' => 'user1',
+            'email' => 'user1@gmail.com',
             'password' => Hash::make('12345'),
             'level' => '0',
             'position' => 'test'
         ]);
         User::create([
+            'image' => 'aepOP1ZSPwIUoPII47AZlt7bTOXQ8HCmBe6eyUtw.png',
+            'name' => 'user2',
+            'email' => 'user2@gmail.com',
+            'password' => Hash::make('12345'),
+            'level' => '0',
+            'position' => 'test'
+        ]);
+        // manager
+        User::create([
             'image' => 'p6LVKEgeGQLgSBN8l51APsgv8vxtRAAL0t859D7K.png',
-            'name' => 'pic bagus',
-            'email' => 'picbagus@gmail.com',
+            'name' => 'manager1',
+            'email' => 'manager1@gmail.com',
             'password' => Hash::make('12345'),
             'level' => '1',
             'position' => 'test'
         ]);
         User::create([
             'image' => 'p6LVKEgeGQLgSBN8l51APsgv8vxtRAAL0t859D7K.png',
-            'name' => 'pic untoro',
-            'email' => 'picuntoro@gmail.com',
+            'name' => 'manager2',
+            'email' => 'manager2@gmail.com',
             'password' => Hash::make('12345'),
             'level' => '1',
             'position' => 'test'
         ]);
+        // admin
         User::create([
             'image' => 'p6LVKEgeGQLgSBN8l51APsgv8vxtRAAL0t859D7K.png',
             'name' => 'admin',
@@ -52,16 +65,34 @@ class UserSeeder extends Seeder
             'position' => 'test'
         ]);
 
+        Divisi::create([
+            'nama_divisi' => 'IT',
+            'id_atasan' => '3',
+        ]);
+        Divisi::create([
+            'nama_divisi' => 'Keuangan',
+            'id_atasan' => '4',
+        ]);
+
+        UserDivisi::create([
+            'id_user' => '1',
+            'id_divisi' => '1',
+        ]);
+        UserDivisi::create([
+            'id_user' => '2',
+            'id_divisi' => '2',
+        ]);
+
         Project::create([
             'client' => 'Bank Mandiri',
             'project' => 'm-Banking',
-            'dueDate' => '2024/05/01',
+            'dueDate' => '2025/08/01',
             'status' => '1'
         ]);
         Project::create([
             'client' => 'Bank BCA',
             'project' => 'm-Banking',
-            'dueDate' => '2024/06/01',
+            'dueDate' => '2025/08/01',
         ]);
 
         UserProject::create([
@@ -74,23 +105,23 @@ class UserSeeder extends Seeder
         ]);
         Phase::create([
             'phase' => 'pertama',
-            'start_date' => '2024/06/08',
-            'end_date' => '2024/06/13',
-            'id_user' => '1',
+            'start_date' => '2025/05/08',
+            'end_date' => '2025/05/13',
+            // 'id_user' => '1',
             'id_project' => '1'
         ]);
         Phase::create([
             'phase' => 'kedua',
-            'start_date' => '2024/06/26',
-            'end_date' => '2024/06/27',
-            'id_user' => '1',
+            'start_date' => '2025/05/26',
+            'end_date' => '2025/05/27',
+            // 'id_user' => '1',
             'id_project' => '1'
         ]);
         Phase::create([
             'phase' => 'pertama',
-            'start_date' => '2024/06/26',
-            'end_date' => '2024/06/27',
-            'id_user' => '1',
+            'start_date' => '2025/05/26',
+            'end_date' => '2025/05/27',
+            // 'id_user' => '1',
             'id_project' => '2'
         ]);
         Deliverable::create([

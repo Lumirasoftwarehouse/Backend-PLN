@@ -19,4 +19,10 @@ class Phase extends Model
         "notes",
         "id_project"
     ];
+
+    public function laporanPhases()
+    {
+        return $this->hasMany(LaporanPhase::class, 'id_phase');
+    }
+
 }
